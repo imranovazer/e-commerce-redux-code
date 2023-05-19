@@ -22,7 +22,7 @@ export default function ResponsiveGrid() {
   });
   if (isLoading) return "Loading...";
   return (
-    <Container>
+    <Container style={{paddingTop:50}}>
       <Box sx={{ flexGrow: 1 }}>
         <Grid
           container

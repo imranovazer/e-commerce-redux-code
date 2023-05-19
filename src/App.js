@@ -1,5 +1,3 @@
-import { QueryClient, QueryClientProvider } from "react-query";
-import ResponsiveAppBar from "./components/ResponsiveAppBar";
 import ResponsiveGrid from "./components/ResponsiveGrid";
 import Layout from './Layouts/Layout'
 import { Routes, Route } from 'react-router-dom'
@@ -7,10 +5,11 @@ import Login from './pages/Login'
 import Register from "./pages/Register";
 import './styles/style.scss'
 import Cart from "./pages/Cart";
+
 function App() {
-  const queryClient = new QueryClient()
+  
   return (
-    <QueryClientProvider client={queryClient}>
+    
       <div className="App">
 
         <Routes>
@@ -29,7 +28,11 @@ function App() {
         </Routes>
 
       </div>
-    </QueryClientProvider>
+     
+      
+
+
+    
   );
 }
 
