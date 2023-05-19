@@ -2,3 +2,14 @@
 {
     margin-bottom: 50px;
 }
+
+.cartItem {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border: 1px solid black;
+    padding: 0 10px;
+    border-radius: 9px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
