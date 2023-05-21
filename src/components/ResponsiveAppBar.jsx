@@ -15,12 +15,15 @@ import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import AdbIcon from "@mui/icons-material/Adb";
 import { Link } from "react-router-dom";
 import { CartContext } from "../CartContext/CartContextProvider";
+import { AuthContext } from "../AuthContext/AuthProvider";
 // const pages = ["Products", "Pricing", "Blog"];
 const pages = ["Products"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+// const settings = ["Profile", "Logout"];
+const settings = ["Logout"];
 
 function ResponsiveAppBar() {
   const { cart } = React.useContext(CartContext);
+  const { isAuth, setIsAuth } = React.useContext(AuthContext);
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -38,6 +41,9 @@ function ResponsiveAppBar() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+
+    localStorage.removeItem("token");
+    setIsAuth(null);
   };
 
   return (
@@ -60,7 +66,7 @@ function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            LOGO
+            Trendyol
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -119,8 +125,9 @@ function ResponsiveAppBar() {
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
+            {pages.map((page, i) => (
               <Link
+                key={i}
                 to={page}
                 style={{ textDecoration: "none", color: "white" }}
               >
@@ -133,75 +140,99 @@ function ResponsiveAppBar() {
                 </Button>
               </Link>
             ))}
-          </Box>
-
-          <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
-            <Link
-              to="Cart"
-              style={{
-                textDecoration: "none",
-                color: "white",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Button
-                onClick={handleCloseNavMenu}
-                sx={{
-                  my: 2,
-                  color: "white",
-                  display: "flex",
-                }}
+            {isAuth && (
+              <Link
+                to="/admin"
+                style={{ textDecoration: "none", color: "white" }}
               >
-                <ShoppingBasketIcon />
-              </Button>
+                <Button
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                >
+                  Admin panel
+                </Button>
+              </Link>
+            )}
+          </Box>
+
+          {isAuth ? (
+            <>
+              <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
+                <Link
+                  to="Cart"
+                  style={{
+                    textDecoration: "none",
+                    color: "white",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Button
+                    onClick={handleCloseNavMenu}
+                    sx={{
+                      my: 2,
+                      color: "white",
+                      display: "flex",
+                    }}
+                  >
+                    <ShoppingBasketIcon />
+                  </Button>
+                </Link>
+
+                <div
+                  className="charNumber"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginRight: 15,
+                    fontFamily: "sans-serif",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {cart.length}
+                </div>
+              </Box>
+
+              <Box sx={{ flexGrow: 0 }}>
+                <Tooltip title="Open settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar
+                      alt="Remy Sharp"
+                      src="/static/images/avatar/2.jpg"
+                    />
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{ mt: "45px" }}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
+                >
+                  {settings.map((setting) => (
+                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                      <Typography textAlign="center">{setting}</Typography>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </Box>
+            </>
+          ) : (
+            <Link to="Login" style={{ color: "white", fontWeight: "bold" }}>
+              <Button color="inherit">Login</Button>
             </Link>
-
-            <div
-              className="charNumber"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                marginRight: 15,
-                fontFamily: "sans-serif",
-                fontWeight: "bold",
-              }}
-            >
-              {cart.length}
-            </div>
-          </Box>
-
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+          )}
         </Toolbar>
       </Container>
     </AppBar>

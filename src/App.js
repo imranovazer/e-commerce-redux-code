@@ -5,34 +5,39 @@ import Login from './pages/Login'
 import Register from "./pages/Register";
 import './styles/style.scss'
 import Cart from "./pages/Cart";
+import ProtectedRoute from "./ProtectedRoute/ProtectedRoute";
+import Landing from "./pages/Landing";
+import Admin from "./pages/Admin";
 
 function App() {
-  
+
   return (
-    
-      <div className="App">
 
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route path="/Products" element={<ResponsiveGrid />}>
+    <div className="App">
 
-
-            </Route>
-            <Route path="/Login" element={<Login />} />
-            <Route path="/Register" element={<Register />} />
+      <Routes>
+        <Route element={<Layout />}>
+          <Route element={<ProtectedRoute />}>
             <Route path="/Cart" element={<Cart />} />
-
+            <Route path="/Products" element={<ResponsiveGrid />} />
+            <Route exact path="/admin" element={<Admin />}></Route>
           </Route>
+          <Route path="/" element={<Landing />}></Route>
+          <Route exact path="/Login" element={<Login />} />
+          <Route path="/Register" element={<Register />} />
 
 
-        </Routes>
-
-      </div>
-     
-      
+        </Route>
 
 
-    
+      </Routes>
+
+    </div>
+
+
+
+
+
   );
 }
 

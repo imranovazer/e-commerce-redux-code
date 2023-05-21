@@ -4,12 +4,12 @@ import { createContext } from "react";
 export const AuthContext = createContext(null);
 
 function AuthProvider({ children }) {
-  const [isAuth, setIsAuth] = useState([]);
+  const [isAuth, setIsAuth] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      setIsAuth(JSON.parse(token));
+      setIsAuth(token);
     }
   }, []);
 
