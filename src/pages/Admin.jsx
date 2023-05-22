@@ -52,13 +52,13 @@ export default function DataTable() {
   };
   const columns = [
     { field: "id", headerName: "ID", width: 70 },
-    { field: "title", headerName: "Title", width: 400 },
+    { field: "title", headerName: "Title", width: 500 },
     { field: "description", headerName: "Description", width: 700 },
     {
       field: "price",
       headerName: "Price",
       type: "number",
-      width: 90,
+      width: "1fr",
     },
     {
       field: "delete",

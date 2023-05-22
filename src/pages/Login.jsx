@@ -34,7 +34,7 @@ export default function Login() {
   const navigate = useNavigate();
   const { isAuth, setIsAuth } = React.useContext(AuthContext);
   React.useEffect(() => {
-    if (localStorage.getItem("token") === "True") {
+    if (localStorage.getItem("token")) {
       navigate(-1);
     }
   }, []);
@@ -92,9 +92,9 @@ export default function Login() {
                     );
                     if (user) {
                       if (user.password === values.password) {
-                        localStorage.setItem("token", "True");
-                        setIsAuth("True");
-                        alert("Congrats you logged in");
+                        localStorage.setItem("token", user.firstName);
+                        setIsAuth(user.firstName);
+
                         navigate("/Products");
                       } else {
                         alert("Password is wrong");

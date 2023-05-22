@@ -7,6 +7,12 @@ import ImgMediaCard from "./ImgMediaCard";
 import { Container } from "@mui/material";
 import { useQuery } from "react-query";
 import axios from "axios";
+import Card from "@mui/joy/Card";
+import IconButton from "@mui/joy/IconButton";
+import Typography from "@mui/joy/Typography";
+import BookmarkAdd from "@mui/icons-material/BookmarkAddOutlined";
+import AspectRatio from "@mui/joy/AspectRatio";
+import Button from "@mui/joy/Button";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -23,18 +29,23 @@ export default function ResponsiveGrid() {
   if (isLoading) return "Loading...";
   return (
     <Container style={{ paddingTop: 50 }}>
-      <Box sx={{ flexGrow: 1 }}>
-        <Grid
-          container
-          spacing={{ xs: 2, md: 3 }}
-          columns={{ xs: 4, sm: 8, md: 12 }}
+      <Box>
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            flexWrap: "wrap",
+            rowGap: 20,
+            justifyContent: "space-around",
+          }}
         >
           {data.data.map((e, index) => (
-            <Grid item xs={2} sm={4} md={4} key={index}>
-              <ImgMediaCard itemData={e}></ImgMediaCard>
-            </Grid>
+            // <Grid item xs={2} sm={4} md={4} key={index}>
+            //   <ImgMediaCard itemData={e}></ImgMediaCard>
+            // </Grid>
+            <ImgMediaCard key={index} itemData={e} />
           ))}
-        </Grid>
+        </div>
       </Box>
     </Container>
   );

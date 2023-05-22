@@ -41,7 +41,7 @@ const SignupSchema = Yup.object().shape({
 export default function Register() {
   const navigate = useNavigate();
   React.useEffect(() => {
-    if (localStorage.getItem("token") === "True") {
+    if (localStorage.getItem("token")) {
       navigate("/Products");
     }
   }, []);

@@ -2,7 +2,7 @@ import { Container } from "@mui/system";
 import React from "react";
 
 function Landing() {
-  return <Container>Landing</Container>;
+  return <div className="Landing"></div>;
 }
 
 export default Landing;

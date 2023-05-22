@@ -39,11 +39,13 @@ function ResponsiveAppBar() {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
+  const logOut = () => {
     setAnchorElUser(null);
-
     localStorage.removeItem("token");
     setIsAuth(null);
+  };
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
   };
 
   return (
@@ -153,6 +155,19 @@ function ResponsiveAppBar() {
                 </Button>
               </Link>
             )}
+            {isAuth && (
+              <Link
+                to="/adminOrders"
+                style={{ textDecoration: "none", color: "white" }}
+              >
+                <Button
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                >
+                  Orders
+                </Button>
+              </Link>
+            )}
           </Box>
 
           {isAuth ? (
@@ -221,7 +236,7 @@ function ResponsiveAppBar() {
                   onClose={handleCloseUserMenu}
                 >
                   {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                    <MenuItem key={setting} onClick={logOut}>
                       <Typography textAlign="center">{setting}</Typography>
                     </MenuItem>
                   ))}
