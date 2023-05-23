@@ -102,13 +102,16 @@ Row.propTypes = {
     address: PropTypes.number.isRequired,
   }).isRequired,
 };
-const dataFromLocalStorage = JSON.parse(localStorage.getItem("orders"));
-
-const rows = dataFromLocalStorage?.map((e) =>
-  createData(e.user, e.address, e.order)
-);
 
 export default function AdminOrders() {
+  const dataFromLocalStorage = JSON.parse(localStorage.getItem("orders"));
+  const RowsData = dataFromLocalStorage?.map((e) =>
+    createData(e.user, e.address, e.order)
+  );
+  const [rows, setRows] = React.useState([]);
+  React.useEffect(() => {
+    setRows(RowsData);
+  }, [dataFromLocalStorage]);
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
