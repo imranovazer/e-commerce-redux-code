@@ -14,15 +14,15 @@ import MenuItem from "@mui/material/MenuItem";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import AdbIcon from "@mui/icons-material/Adb";
 import { Link } from "react-router-dom";
-import { CartContext } from "../CartContext/CartContextProvider";
 import { AuthContext } from "../AuthContext/AuthProvider";
+import { useSelector } from "react-redux";
 // const pages = ["Products", "Pricing", "Blog"];
 const pages = ["Products"];
 // const settings = ["Profile", "Logout"];
 const settings = ["Logout"];
 
 function ResponsiveAppBar() {
-  const { cart } = React.useContext(CartContext);
+  const cart = useSelector((state) => state);
   const { isAuth, setIsAuth } = React.useContext(AuthContext);
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);

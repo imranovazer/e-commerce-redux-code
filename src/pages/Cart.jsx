@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { CartContext } from "../CartContext/CartContextProvider";
 import { FavoriteBorder } from "@mui/icons-material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -10,13 +9,16 @@ import Input from "@mui/joy/Input";
 import Button from "@mui/joy/Button";
 import { Container, IconButton } from "@mui/material";
 import { AuthContext } from "../AuthContext/AuthProvider";
+import { useDispatch, useSelector } from "react-redux";
 function Cart() {
   const { isAuth } = useContext(AuthContext);
   const [data, setData] = React.useState({
     address: "",
     status: "initial",
   });
-  const { cart, setCart } = useContext(CartContext);
+
+  const cart = useSelector((state) => state);
+  const dispatch = useDispatch();
 
   const totalPrice = () => {
     let total = 0;
@@ -43,33 +45,13 @@ function Cart() {
     setData({ address: "", status: "sent" });
   };
   const handleRemove = (id) => {
-    const newCart = [...cart];
-    const prodIndex = newCart.findIndex((e) => e.id === id);
-    if (prodIndex !== -1) {
-      newCart.splice(prodIndex, 1);
-    }
-    setCart(newCart);
-    localStorage.setItem("cart", JSON.stringify(newCart));
+    dispatch({ type: "REMOVE_ITEM", payload: id });
   };
   const addOne = (id) => {
-    const updatedCart = [...cart];
-    const elemenToUpdate = updatedCart.find((e) => e.id === id);
-
-    elemenToUpdate.count = elemenToUpdate.count + 1;
-
-    setCart(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    dispatch({ type: "ADD_ONE", payload: id });
   };
   const removeOne = (id) => {
-    const updatedCart = [...cart];
-    const elemenToUpdate = updatedCart.find((e) => e.id === id);
-    console.log(elemenToUpdate);
-    if (elemenToUpdate.count > 1) {
-      elemenToUpdate.count = elemenToUpdate.count - 1;
-    }
-
-    setCart(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    dispatch({ type: "REMOVE_ONE", payload: id });
   };
 
   return (

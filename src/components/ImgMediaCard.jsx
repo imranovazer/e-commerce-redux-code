@@ -4,7 +4,6 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 
-import { CartContext } from "../CartContext/CartContextProvider";
 import Card from "@mui/joy/Card";
 import IconButton from "@mui/joy/IconButton";
 import Typography from "@mui/joy/Typography";
@@ -12,48 +11,20 @@ import BookmarkAdd from "@mui/icons-material/BookmarkAddOutlined";
 import AspectRatio from "@mui/joy/AspectRatio";
 import Button from "@mui/joy/Button";
 import { Box } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function ImgMediaCard({ itemData }) {
-  const { cart, setCart } = React.useContext(CartContext);
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state);
   const isInCart = () => {
     const existingItemIndex = cart.findIndex((item) => item.id === itemData.id);
     return existingItemIndex !== -1 ? true : false;
   };
   const handleRemove = () => {
-    const newCart = [...cart];
-    const prodIndex = newCart.findIndex((e) => e.id === itemData.id);
-    if (prodIndex !== -1) {
-      newCart.splice(prodIndex, 1);
-    }
-    setCart(newCart);
-    localStorage.setItem("cart", JSON.stringify(newCart));
+    dispatch({ type: "REMOVE_ITEM", payload: itemData.id });
   };
   const addToChart = () => {
-    const existingItemIndex = cart.findIndex((item) => item.id === itemData.id);
-
-    if (existingItemIndex !== -1) {
-      const updatedCart = [...cart];
-      updatedCart[existingItemIndex] = {
-        ...updatedCart[existingItemIndex],
-        count: updatedCart[existingItemIndex].count + 1,
-      };
-
-      setCart(updatedCart);
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
-    } else {
-      const newItem = {
-        id: itemData.id,
-        price: itemData.price,
-        title: itemData.title,
-        description: itemData.description,
-        image: itemData.image,
-        count: 1,
-      };
-
-      const updatedCart = [...cart, newItem];
-      setCart(updatedCart);
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
-    }
+    dispatch({ type: "ADD_ITEM", payload: itemData });
   };
   return (
     <Card variant="outlined" sx={{ width: 320 }}>
